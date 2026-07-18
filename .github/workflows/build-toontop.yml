@@ -26,11 +26,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: List available tasks for toontop
+        run: ./gradlew :src:en:toontop:tasks --all 2>&1 | grep -i "assemble\|build\|apk" || true
+
       - name: Build ToonTop APK
-        run: ./gradlew :src:en:toontop:assembleReleaseUnsigned --stacktrace
+        run: ./gradlew :src:en:toontop:assembleRelease --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ToonTop-APK
-                    path: src/en/toontop/build/outputs/apk/**/*.apk
+          path: src/en/toontop/build/outputs/apk/**/*.apk
+          if-no-files-found: warn
