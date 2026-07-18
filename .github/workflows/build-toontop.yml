@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ToonTop-APK
-          path: src/en/toontop/build/outputs/apk/debug/*.apk
+                    path: src/en/toontop/build/outputs/apk/**/*.apk
