@@ -27,7 +27,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build ToonTop APK
-        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace
+        run: ./gradlew :src:en:toontop:assembleReleaseUnsigned --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
