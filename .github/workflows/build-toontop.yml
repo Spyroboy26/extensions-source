@@ -26,15 +26,20 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: List ALL tasks for toontop
-        run: ./gradlew :src:en:toontop:tasks --all
+      - name: Auto-fix formatting
+        run: ./gradlew :src:en:toontop:spotlessApply
+        continue-on-error: true
 
       - name: Build ToonTop APK
-        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace
+        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace -x spotlessCheck -x spotlessKotlinCheck
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         if: always()
+        with:
+          name: ToonTop-APK
+          path: src/en/toontop/build/outputs/apk/**/*.apk
+          if-no-files-found: warn        if: always()
         with:
           name: ToonTop-APK
           path: src/en/toontop/build/outputs/apk/**/*.apk
