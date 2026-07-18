@@ -28,3 +28,14 @@ jobs:
 
       - name: List ALL tasks for toontop
         run: ./gradlew :src:en:toontop:tasks --all
+
+      - name: Build ToonTop APK
+        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ToonTop-APK
+          path: src/en/toontop/build/outputs/apk/**/*.apk
+          if-no-files-found: warn
