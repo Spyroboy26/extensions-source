@@ -1,43 +1,29 @@
-name: Build ToonTop APK
+name: Build ToonTop Only
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "src/en/toontop/**"
-      - ".github/workflows/build-toontop.yml"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v3
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - run: chmod +x gradlew
 
-      - name: Auto-fix formatting
-        run: ./gradlew :src:en:toontop:spotlessApply
-        continue-on-error: true
+      - name: Build ONLY ToonTop Debug
+        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace
 
-      - name: Build ToonTop APK
-        run: ./gradlew :src:en:toontop:assembleDebug --stacktrace -x spotlessCheck -x spotlessKotlinCheck
-
-      - name: Upload APK
-        if: always()
+      - name: Upload ToonTop APK
         uses: actions/upload-artifact@v4
         with:
           name: ToonTop-APK
-          path: "src/en/toontop/build/outputs/apk/**/*.apk"
-          if-no-files-found: "warn"
+          path: src/en/toontop/build/outputs/apk/debug/*.apk
