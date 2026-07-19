@@ -54,8 +54,11 @@ class ToonTop : ParsedHttpSource() {
     override fun searchMangaFromElement(element: Element) =
         popularMangaFromElement(element)
 
-    override fun mangaDetailsParse(document: Document): SManga =
-        SManga.create()
+    override fun mangaDetailsParse(document: Document): SManga {
+    return SManga.create().apply {
+        title = name
+    }
+    }
 
     override fun chapterListSelector() = "a.chapter"
 
